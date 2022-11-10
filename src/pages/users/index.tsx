@@ -83,7 +83,6 @@ class User extends PureComponent<ViewProps, ViewStates> {
 
   handleAddOk = () => {
     this.setState({ loadingM: true });
-    console.log("User", this.state.userData)
     setTimeout(() => {
       this.setState({ loadingM: false, visibleA: false });
 
@@ -133,7 +132,7 @@ class User extends PureComponent<ViewProps, ViewStates> {
     const { dispatch } = this.props;
     dispatch({
       type: 'users/all',
-    });
+    });    
   }
 
   addUser() {

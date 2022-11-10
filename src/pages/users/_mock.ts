@@ -36,8 +36,8 @@ let usersList: User[] = [
 
 export default {
   'GET /api/users': (req, res) => {
-    users=usersList;
-    return res.json(usersList);
+    users=[...usersList];
+    return res.json(users);
   },
   'POST /api/users': (req, res) => {
     const { body } = req;
