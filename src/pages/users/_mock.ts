@@ -17,9 +17,27 @@ let users: User[] = [
   }
 ];
 
+let usersList: User[] = [
+  {
+    id: 0,
+    name: 'RDG',
+    age:27,
+    contact:9340172104,
+    creationTimestamp: new Date()
+  },
+  {
+    id: 1,
+    name: 'Maya',
+    age:27,
+    contact:9340172104,
+    creationTimestamp: new Date()
+  }
+];
+
 export default {
   'GET /api/users': (req, res) => {
-    return res.json(users);
+    users=usersList;
+    return res.json(usersList);
   },
   'POST /api/users': (req, res) => {
     const { body } = req;
