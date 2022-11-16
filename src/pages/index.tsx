@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'umi';
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
+import { formatMessage } from 'umi-plugin-locale';
 import styles from './index.css';
+import Navbar from '@/Components/Navbar';
 
 const { Header, Content } = Layout;
 
@@ -9,21 +10,12 @@ export default function () {
   return (
     <Layout>
       <Header>
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['1']}
-          style={{ lineHeight: '64px' }}
-        >
-          <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
-          <Menu.Item key="2"><Link to="/users">Users</Link></Menu.Item>
-        </Menu>
+        <Navbar activeNav="1" />
       </Header>
 
-      <Content style={{ padding: '0 50px' }}  className={styles.normal}>
+      <Content style={{ padding: '0 50px' }} className={styles.normal}>
         <div className={styles.welcome} />
-        <h2>Welcome to UMI</h2>
+        <h2>{formatMessage({ id: 'welcome.text' })}</h2>
       </Content>
 
     </Layout>

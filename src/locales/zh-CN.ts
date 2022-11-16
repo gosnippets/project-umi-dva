@@ -1,0 +1,18 @@
+export default {
+  'welcome.text': '欢迎来到 UMI',
+  'nav.home': '家',
+  'nav.users': '用户',
+  'user.addUser': '添加用户',
+  'user.usersList': '用户列表',
+  'user.editUser': '编辑用户',
+  'user.deleteText': '确定删除？',
+  'user.name': '姓名',
+  'user.age': '年龄',
+  'user.contact': '接触',
+  'user.action': '行动',
+  'user.edit': '编辑',
+  'user.delete': '删除',
+  'user.add': '添加',
+  'user.update': '更新',
+  'user.cancel': '取消',
+};

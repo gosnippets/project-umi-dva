@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import { Button, Card, Divider, Layout, Input, InputNumber, Menu, Modal, Popconfirm, Table } from 'antd';
+import { formatMessage } from 'umi-plugin-locale';
 import { Link } from 'umi';
 import { connect } from 'dva';
 import { UserState } from './model';
 import * as styles from './index.css';
+import Navbar from '@/Components/Navbar';
 
 const { Header, Content } = Layout;
 
@@ -16,7 +18,7 @@ interface ViewProps {
 interface ViewStates {
   pendingUser: string;
   loadingM: boolean;
-  visibleM: boolean; 
+  visibleM: boolean;
   visibleA: boolean;
   values: object;
   userData: object;
@@ -51,7 +53,7 @@ class User extends PureComponent<ViewProps, ViewStates> {
   showModal = (user) => {
     this.setState({ values: user })
     this.setState({ visibleM: true });
-  }; 
+  };
 
   handleOk = () => {
     this.setState({ loadingM: true });
@@ -73,7 +75,7 @@ class User extends PureComponent<ViewProps, ViewStates> {
   };
 
   showAddModal = () => {
-    this.setState({ userData: {  name: "", age: null, contact: null } });
+    this.setState({ userData: { name: "", age: null, contact: null } });
     this.setState({ visibleA: true });
   };
 
@@ -91,36 +93,36 @@ class User extends PureComponent<ViewProps, ViewStates> {
         type: 'users/add',
         payload: this.state.userData,
       });
-      this.setState({ userData: {  name: "", age: null, contact: null } });
+      this.setState({ userData: { name: "", age: null, contact: null } });
 
     }, 3000);
   };
 
   columns = [
     {
-      title: 'Name',
+      title: formatMessage({ id: 'user.name' }),
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Age',
+      title: formatMessage({ id: 'user.age' }),
       dataIndex: 'age',
       key: 'age',
     },
     {
-      title: 'Contact',
+      title: formatMessage({ id: 'user.contact' }),
       dataIndex: 'contact',
       key: 'contact',
     },
     {
-      title: 'Action',
+      title: formatMessage({ id: 'user.action' }),
       key: 'action',
       render: (text, record) => (
         <span>
-          <Button type="primary" onClick={() => this.showModal(record)}>Edit</Button>
+          <Button type="primary" onClick={() => this.showModal(record)}>{formatMessage({ id: 'user.edit' })}</Button>
           <Divider type="vertical" />
-          <Popconfirm title="Sure to delete?" onConfirm={() => this.deleteUser(record.id)}>
-            <Button type="danger">Delete</Button>
+          <Popconfirm title={formatMessage({ id: 'user.deleteText' })} onConfirm={() => this.deleteUser(record.id)}>
+            <Button type="danger">{formatMessage({ id: 'user.delete' })}</Button>
           </Popconfirm>
         </span>
       ),
@@ -132,7 +134,7 @@ class User extends PureComponent<ViewProps, ViewStates> {
     const { dispatch } = this.props;
     dispatch({
       type: 'users/all',
-    });    
+    });
   }
 
   addUser() {
@@ -183,23 +185,14 @@ class User extends PureComponent<ViewProps, ViewStates> {
       <Layout className={styles.userLayout}>
 
         <Header>
-          <div className="logo" />
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['2']}
-            style={{ lineHeight: '64px' }}
-          >
-            <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
-            <Menu.Item key="2"><Link to="/users">Users</Link></Menu.Item>
-          </Menu>
+          <Navbar activeNav="2" />
         </Header>
 
         <Content style={{ padding: '10px 50px' }}>
 
-          <Button type="primary" onClick={() => this.showAddModal()} style={{margin:"10px 0", marginLeft:"auto", display:"block"}}>Add User</Button>
+          <Button type="primary" onClick={() => this.showAddModal()} style={{ margin: "10px 0", marginLeft: "auto", display: "block" }}>{formatMessage({ id: 'user.addUser' })}</Button>
 
-          <Card title="Users List">
+          <Card title={formatMessage({ id: 'user.usersList' })}>
             <Table rowKey={user => user.id} dataSource={this.props.users.list} columns={this.columns} />
           </Card>
 
@@ -207,38 +200,34 @@ class User extends PureComponent<ViewProps, ViewStates> {
           <Modal
             key={this.state.values.id}
             visible={visibleM}
-            title="Edit User"
+            title={formatMessage({ id: 'user.editUser' })}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
             footer={[
-              <Button key="back" onClick={this.handleCancel}>Cancel</Button>,
-              <Button key="submit" type="primary" loading={loadingM} onClick={this.handleOk}>
-                Update
-              </Button>,
+              <Button key="back" onClick={this.handleCancel}>{formatMessage({ id: 'user.cancel' })}</Button>,
+              <Button key="submit" type="primary" loading={loadingM} onClick={this.handleOk}>{formatMessage({ id: 'user.update' })}</Button>,
             ]}
           >
 
-            <Input placeholder="Name" defaultValue={values.name} id="name" name="name" onChange={this.handleInputChange} />
-            <InputNumber placeholder="Age" defaultValue={values.age} id="age" name="age" style={{ width: "100%", margin: "15px 0" }} onChange={(e) => this.handleNumberChange("age", e)} />
-            <InputNumber placeholder="Contact" defaultValue={values.contact} id="contact" name="contact" style={{ width: "100%" }} onChange={(e) => this.handleNumberChange("contact", e)} />
+            <Input placeholder={formatMessage({ id: 'user.name' })} defaultValue={values.name} id="name" name="name" onChange={this.handleInputChange} />
+            <InputNumber placeholder={formatMessage({ id: 'user.age' })} defaultValue={values.age} id="age" name="age" style={{ width: "100%", margin: "15px 0" }} onChange={(e) => this.handleNumberChange("age", e)} />
+            <InputNumber placeholder={formatMessage({ id: 'user.contact' })} defaultValue={values.contact} id="contact" name="contact" style={{ width: "100%" }} onChange={(e) => this.handleNumberChange("contact", e)} />
           </Modal>
 
           <Modal
             visible={visibleA}
-            title="Add User"
+            title={formatMessage({ id: 'user.addUser' })}
             onOk={this.handleAddOk}
             onCancel={this.handleAddCancel}
             footer={[
-              <Button key="back" onClick={this.handleAddCancel}>Cancel</Button>,
-              <Button key="submit" type="primary" loading={loadingM} onClick={this.handleAddOk}>
-                Add
-              </Button>,
+              <Button key="back" onClick={this.handleAddCancel}>{formatMessage({ id: 'user.cancel' })}</Button>,
+              <Button key="submit" type="primary" loading={loadingM} onClick={this.handleAddOk}>{formatMessage({ id: 'user.add' })}</Button>,
             ]}
           >
 
-            <Input placeholder="Name" defaultValue={values.name} id="name" name="name" onChange={this.handleInputChangeA} />
-            <InputNumber placeholder="Age" defaultValue={values.age} id="age" name="age" style={{ width: "100%", margin: "15px 0" }} onChange={(e) => this.handleNumberChangeA("age", e)} />
-            <InputNumber placeholder="Contact" defaultValue={values.contact} id="contact" name="contact" style={{ width: "100%" }} onChange={(e) => this.handleNumberChangeA("contact", e)} />
+            <Input placeholder={formatMessage({ id: 'user.name' })} defaultValue={values.name} id="name" name="name" onChange={this.handleInputChangeA} />
+            <InputNumber placeholder={formatMessage({ id: 'user.age' })} defaultValue={values.age} id="age" name="age" style={{ width: "100%", margin: "15px 0" }} onChange={(e) => this.handleNumberChangeA("age", e)} />
+            <InputNumber placeholder={formatMessage({ id: 'user.contact' })} defaultValue={values.contact} id="contact" name="contact" style={{ width: "100%" }} onChange={(e) => this.handleNumberChangeA("contact", e)} />
           </Modal>
 
         </Content>
