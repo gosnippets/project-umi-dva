@@ -10,12 +10,3 @@
   background-size: 388px 328px;
   margin-bottom: 4rem;
 }
-
-.lang {
-  color: rgb(193, 186, 186);
-  cursor: pointer;
-}
-
-.lang:hover {
-  color: rgb(255, 255, 255);
-}

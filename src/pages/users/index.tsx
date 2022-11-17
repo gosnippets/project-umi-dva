@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Button, Card, Divider, Layout, Input, InputNumber, Menu, Modal, Popconfirm, Table } from 'antd';
 import { formatMessage } from 'umi-plugin-locale';
-import { Link } from 'umi';
 import { connect } from 'dva';
 import { UserState } from './model';
 import * as styles from './index.css';
@@ -98,36 +97,7 @@ class User extends PureComponent<ViewProps, ViewStates> {
     }, 3000);
   };
 
-  columns = [
-    {
-      title: formatMessage({ id: 'user.name' }),
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: formatMessage({ id: 'user.age' }),
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: formatMessage({ id: 'user.contact' }),
-      dataIndex: 'contact',
-      key: 'contact',
-    },
-    {
-      title: formatMessage({ id: 'user.action' }),
-      key: 'action',
-      render: (text, record) => (
-        <span>
-          <Button type="primary" onClick={() => this.showModal(record)}>{formatMessage({ id: 'user.edit' })}</Button>
-          <Divider type="vertical" />
-          <Popconfirm title={formatMessage({ id: 'user.deleteText' })} onConfirm={() => this.deleteUser(record.id)}>
-            <Button type="danger">{formatMessage({ id: 'user.delete' })}</Button>
-          </Popconfirm>
-        </span>
-      ),
-    },
-  ];
+  
 
 
   componentDidMount() {
@@ -181,6 +151,37 @@ class User extends PureComponent<ViewProps, ViewStates> {
 
   render() {
     const { visibleM, visibleA, loadingM, values } = this.state;
+    const columns = [
+      {
+        title: formatMessage({ id: 'user.name' }),
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: formatMessage({ id: 'user.age' }),
+        dataIndex: 'age',
+        key: 'age',
+      },
+      {
+        title: formatMessage({ id: 'user.contact' }),
+        dataIndex: 'contact',
+        key: 'contact',
+      },
+      {
+        title: formatMessage({ id: 'user.action' }),
+        key: 'action',
+        render: (text, record) => (
+          <span>
+            <Button type="primary" onClick={() => this.showModal(record)}>{formatMessage({ id: 'user.edit' })}</Button>
+            <Divider type="vertical" />
+            <Popconfirm title={formatMessage({ id: 'user.deleteText' })} onConfirm={() => this.deleteUser(record.id)}>
+              <Button type="danger">{formatMessage({ id: 'user.delete' })}</Button>
+            </Popconfirm>
+          </span>
+        ),
+      },
+    ];
+
     return (
       <Layout className={styles.userLayout}>
 
@@ -193,7 +194,7 @@ class User extends PureComponent<ViewProps, ViewStates> {
           <Button type="primary" onClick={() => this.showAddModal()} style={{ margin: "10px 0", marginLeft: "auto", display: "block" }}>{formatMessage({ id: 'user.addUser' })}</Button>
 
           <Card title={formatMessage({ id: 'user.usersList' })}>
-            <Table rowKey={user => user.id} dataSource={this.props.users.list} columns={this.columns} />
+            <Table rowKey={user => user.id} dataSource={this.props.users.list} columns={columns} />
           </Card>
 
 

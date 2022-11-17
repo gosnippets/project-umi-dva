@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'umi';
-import { Menu, Row, Col } from 'antd';
-import { formatMessage, setLocale } from 'umi-plugin-locale';
-import styles from '../pages/index.css';
+import { Menu, Row, Col, Select } from 'antd';
+import { formatMessage, getLocale, setLocale } from 'umi-plugin-locale';
+const { Option } = Select;
 
 interface ViewProps {
     activeNav: string;
@@ -10,8 +10,8 @@ interface ViewProps {
 
 class Navbar extends React.Component<ViewProps> {
 
-    changeLang(lang: string) {
-        setLocale(lang);
+    handleChange(lang: string) {
+        setLocale(lang, false);
     }
 
     render() {
@@ -30,11 +30,16 @@ class Navbar extends React.Component<ViewProps> {
                     </Menu>
                 </Col>
                 <Col span={2}>
-                    <div>
+                    <Select defaultValue={getLocale()} style={{ width: 120 }} onChange={(e) => this.handleChange(e)}>
+                        <Option value="en-US">EN</Option>
+                        <Option value="zh-CN">CN</Option>
+                    </Select>
+
+                    {/* <div>
                         <span className={styles.lang} onClick={() => this.changeLang("en-US")}>EN</span>
                         <span className="ant-divider" style={{ margin: '0 1em' }} />
                         <span className={styles.lang} onClick={() => this.changeLang("zh-CN")}>中国</span>
-                    </div>
+                    </div> */}
                 </Col>
             </Row>
         );
